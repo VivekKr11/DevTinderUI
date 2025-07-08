@@ -5,8 +5,11 @@ import { addUser } from "./utils/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("");
-  const [password, setPassword] = useState("");
+  const [emailId, setEmailId] = useState("virat@gmail.com");
+  const [password, setPassword] = useState("Virat@123");
+
+  const [error, setError] = useState("");
+
   const dispatch = useDispatch();
   const Navigate = useNavigate();
   const handleLogin = async () => {
@@ -20,9 +23,10 @@ const Login = () => {
         { withCredentials: true }
       );
       // console.log(res.data);
-      dispatch(addUser(res.data))
-      Navigate("/")
+      dispatch(addUser(res.data));
+      Navigate("/");
     } catch (error) {
+      setError(error?.response?.data || "something went wrong");
       console.log(error);
     }
   };
@@ -59,6 +63,7 @@ const Login = () => {
             <button onClick={handleLogin} className="btn btn-primary">
               Login
             </button>
+            <p className="text-red-500">{error}</p>
           </div>
         </div>
       </div>
